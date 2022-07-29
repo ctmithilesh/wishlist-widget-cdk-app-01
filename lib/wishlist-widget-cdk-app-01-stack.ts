@@ -1,19 +1,13 @@
-import { Duration, Stack, StackProps } from 'aws-cdk-lib';
-import * as sns from 'aws-cdk-lib/aws-sns';
-import * as subs from 'aws-cdk-lib/aws-sns-subscriptions';
-import * as sqs from 'aws-cdk-lib/aws-sqs';
+import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import * as widget_service from '../lib/widget_service';
 
 export class WishlistWidgetCdkApp01Stack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const queue = new sqs.Queue(this, 'WishlistWidgetCdkApp01Queue', {
-      visibilityTimeout: Duration.seconds(300)
-    });
+    new widget_service.WidgetService(this, 'Widgets');
 
-    const topic = new sns.Topic(this, 'WishlistWidgetCdkApp01Topic');
-
-    topic.addSubscription(new subs.SqsSubscription(queue));
+    
   }
 }
